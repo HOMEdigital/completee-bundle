@@ -1,0 +1,4 @@
+home_completee:
+      resource: "@HomeCompleteeBundle/Controller"
+      type: annotation
+

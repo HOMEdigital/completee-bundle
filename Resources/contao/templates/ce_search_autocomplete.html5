@@ -1,0 +1,81 @@
+<?php $this->extend('block_unsearchable'); ?>
+
+<?php $this->block('content'); ?>
+
+  <form<?php if ($this->action): ?> action="<?= $this->action ?>"<?php endif; ?> method="get">
+    <div class="formbody">
+      <div class="widget widget-text">
+        <label for="ctrl_keywords_<?= $this->uniqueId ?>" class="invisible"><?= $this->keywordLabel ?></label>
+        <input type="search" name="keywords" id="ctrl_keywords_<?= $this->uniqueId ?>" class="text" value="<?= $this->keyword ?>">
+          <div class="dropdown">
+              <div class="dropdown-content"></div>
+          </div>
+      </div>
+      <div class="widget widget-submit">
+        <button type="submit" id="ctrl_submit_<?= $this->uniqueId ?>" class="submit"><?= $this->search ?></button>
+      </div>
+      <?php if ($this->advanced): ?>
+        <div class="widget widget-radio">
+          <fieldset class="radio_container">
+            <legend class="invisible"><?= $this->optionsLabel ?></legend>
+            <span><input type="radio" name="query_type" id="matchAll_<?= $this->uniqueId ?>" class="radio" value="and"<?php if ($this->queryType == 'and'): ?> checked="checked"<?php endif; ?>> <label for="matchAll_<?= $this->uniqueId ?>"><?= $this->matchAll ?></label></span>
+            <span><input type="radio" name="query_type" id="matchAny_<?= $this->uniqueId ?>" class="radio" value="or"<?php if ($this->queryType == 'or'): ?> checked="checked"<?php endif; ?>> <label for="matchAny_<?= $this->uniqueId ?>"><?= $this->matchAny ?></label></span>
+          </fieldset>
+        </div>
+      <?php endif; ?>
+    </div>
+  </form>
+
+  <?php if ($this->header): ?>
+    <p class="header"><?= $this->header ?> (<?= $this->duration ?>)</p>
+  <?php endif; ?>
+
+  <?= $this->results . $this->pagination ?>
+
+    <script src="/bundles/homecompletee/debounce.min.js"></script>
+    <script>
+
+        $( document ).ready(function() {
+
+            let baseURL = $( location ).attr('origin');
+
+            function getSearchResults(){
+                let val = $(this).val();
+                let content$ = $('.dropdown-content');
+
+                $.ajax({
+                    type: "GET",
+                    url: baseURL + "/completee/or/" + encodeURI(val),
+                    success: function(response)
+                    {
+                        if(response && response.success === true && response.results.length > 0){
+                            let content = ``;
+
+                            let length = response.results.length >= 7 ? 7 : response.results.length;
+
+                            for(let i = 0; i < length; i++){
+                                let row = response.results[i];
+                                let text = row.text.length >= 45 ? row.text.substring(0, 45) + `...` : row.text;
+                                content += `<a href="` + row.url + `"><div><h3>` + row.title + `</h3><span>` + text + `</span></div></a>`;
+                            }
+
+                            content$.show();
+                            content$.append(content);
+                        }else{
+                            content$.hide();
+                            content$.empty();
+                        }
+                    },
+                    error: function(){
+                        content$.hide();
+                        content$.empty();
+                        console.error('ERROR::saa::' + val);
+                    }
+                })
+            }
+
+            $('input.text').keyup($.debounce(500, getSearchResults));
+        })
+    </script>
+
+<?php $this->endblock(); ?>
