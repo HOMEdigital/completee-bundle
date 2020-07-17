@@ -74,7 +74,7 @@
                 })
             }
 
-            $('input.text').keyup($.debounce(500, getSearchResults));
+            $('input.text').keyup($.debounce(250, getSearchResults));
         })
     </script>
 

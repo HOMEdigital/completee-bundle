@@ -76,7 +76,7 @@ class SearchWithAutocomplete extends ContentElement
         }
     }
 
-    public static function completeeSearch($strKeywords, $strQueryType, $arrPages = array(), $blnFuzzy=false)
+    public static function completeeSearch($strKeywords, $strQueryType, $arrPages = array(), $blnFuzzy=true)
     {
         $arrResult = array();
 
