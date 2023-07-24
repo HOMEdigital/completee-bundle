@@ -4,14 +4,14 @@ namespace Home\CompleteeBundle\Controller;
 
 use Contao\Database;
 use Home\CompleteeBundle\Resources\contao\elements\SearchWithAutocomplete;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CompleteeController extends Controller
+class CompleteeController extends AbstractController
 {
     /**
      * @Route("/completee/{type}/{searchString}", name="getSearchResults")
