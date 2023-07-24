@@ -4,7 +4,7 @@ namespace Home\CompleteeBundle\Controller;
 
 use Contao\Database;
 use Home\CompleteeBundle\Resources\contao\elements\SearchWithAutocomplete;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as Controller;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
